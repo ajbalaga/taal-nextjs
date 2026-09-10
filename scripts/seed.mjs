@@ -11,7 +11,7 @@ if (!uri) {
 
 const client = new MongoClient(uri);
 await client.connect();
-const db = client.db(process.env.MONGODB_DB || "taal");
+const db = client.db(process.env.MONGODB_DB || "taal_municipality");
 
 await db.collection("announcements").createIndex({ publishedAt: -1 });
 await db.collection("announcements").createIndex({ cat: 1 });
