@@ -34,7 +34,16 @@ const styles = {
   window: { margin: "6px 0 0", fontSize: 14.5, color: c.ink70 },
   time: { fontFamily: serif, fontSize: 22, fontWeight: 600, margin: "0 0 6px" },
   timeNote: { margin: 0, fontSize: 14.5, lineHeight: 1.5, color: c.ink70 },
-  empty: { fontSize: 16, color: c.ink55 }
+  empty: { fontSize: 16, color: c.ink55 },
+  cedulaCta: {
+    margin: "0 clamp(18px,3vw,30px) 22px", padding: "14px 20px", background: c.cream,
+    display: "flex", flexWrap: "wrap", gap: "8px 16px", alignItems: "center", justifyContent: "space-between"
+  },
+  cedulaCtaText: { margin: 0, fontSize: 14.5, color: c.ink70 },
+  cedulaCtaLink: {
+    minHeight: 44, padding: "10px 18px", background: c.terracotta, color: c.paper,
+    fontSize: 14.5, fontWeight: 600, display: "flex", alignItems: "center", textDecoration: "none"
+  }
 };
 
 const Step = ({ n, label, children, tinted }) => (
@@ -90,6 +99,12 @@ export default function Services({ searchParams }) {
                 <p style={styles.timeNote}>{s.timeNote}</p>
               </Step>
             </div>
+            {s.id === "cedula" && (
+              <div style={styles.cedulaCta}>
+                <p style={styles.cedulaCtaText}>Skip the line — book a date and time online, then pay at the Taxpayer's Lounge.</p>
+                <Link href="/services/cedula" style={styles.cedulaCtaLink}>Request an appointment →</Link>
+              </div>
+            )}
           </article>
         ))}
         {!list.length && <p style={styles.empty}>No service matches that term.</p>}
