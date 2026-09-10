@@ -31,7 +31,7 @@ in `lib/data.js` — so you can run `npm run dev` before touching the database.
 | Route | Rendering | Source of truth |
 |---|---|---|
 | `/` | static, revalidate 300s | `lib/data.js` + announcements from Mongo |
-| `/services` | static, `?q=` filter | `lib/data.js` |
+| `/services` | static, `?q=` filter | `lib/data.js` + forms from Mongo (see *Forms*) |
 | `/announcements` | static, revalidate 120s, `?cat=` filter | Mongo `announcements` |
 | `/offices` | static | `lib/data.js` |
 | `/officials` | static | `lib/data.js` |
@@ -40,6 +40,13 @@ in `lib/data.js` — so you can run `npm run dev` before touching the database.
 
 Navigation is real routing, so every page is linkable, bookmarkable and indexable —
 the main reason to move off the single-file prototype.
+
+"Static" means Next.js prerenders the HTML — pages with a `revalidate` export
+refresh on that timer; `/services` has none, so its Mongo-backed forms list is
+baked in at build time and only changes on redeploy or manual revalidation.
+Every Mongo read (`lib/announcements.js`, `FormsList`) is wrapped in a try/catch
+that falls back to the seeded arrays in `lib/data.js` (or the static PDFs in
+`public/forms/`) if the database is unreachable, empty, or `MONGODB_URI` isn't set.
 
 ## API
 
@@ -67,24 +74,32 @@ database would add operational cost for nothing.
 
 ## Forms & Cloudflare R2
 
-Right now the download links point at sample PDFs in `/public/forms/*.pdf`
-(building permit checklist, business permit application, citizen feedback form,
-civil registry request slip, real property tax clearance request, senior citizen
-ID application): served free from the host CDN, versioned in git, zero
-credentials. Keep it that way until staff need to publish a form without a
-deploy — and swap the samples for the real municipal forms before launch.
+`FormsList` (rendered on `/services`) queries the Mongo `forms` collection first;
+until a form is uploaded there, the download links fall back to the sample PDFs
+in `/public/forms/*.pdf` (building permit checklist, business permit application,
+citizen feedback form, civil registry request slip, real property tax clearance
+request, senior citizen ID application) — served free from the host CDN,
+versioned in git, zero credentials. Swap those samples for the real municipal
+forms before launch.
 
-When that day comes: create an R2 bucket, fill the `R2_*` variables, and
-`POST /api/forms/upload`. R2 gives 10 GB and 1M writes free with **no egress fees**,
-and it speaks the S3 API — so `@aws-sdk/client-s3` works unchanged and a later move
-to S3 is an endpoint swap.
+Cloudflare R2 is wired up but not yet in use: `POST /api/forms/upload` (admin-only,
+`lib/r2.js`) returns a presigned URL so the browser can PUT a PDF straight to R2,
+and records the `{ name, meta, key }` in the `forms` collection. There's no admin
+UI for it yet — call the endpoint directly, or build one, once staff need to
+publish a form without a deploy. R2 gives 10 GB and 1M writes free with **no
+egress fees**, and it speaks the S3 API — so `@aws-sdk/client-s3` works unchanged
+and a later move to S3 is an endpoint swap.
 
 ## Styling
 
-Inline style objects with tokens in `lib/theme.js`, mirroring the design exactly.
-Fonts come from `next/font/google` (Spectral, Source Sans 3, IBM Plex Mono) so
-they self-host at build time. If your team prefers Tailwind, the palette maps
-straight onto a theme extension — the token names in `lib/theme.js` are the keys.
+Still inline style objects with tokens in `lib/theme.js`, mirroring the design
+exactly — no Tailwind or CSS-in-JS library. `app/globals.css` stays a handful of
+lines for the few things inline styles can't express: focus rings, the skip
+link, and the `@media (max-width: 880px)` breakpoint that swaps the desktop nav
+for the collapsible mobile one in `components/Header.js`. Fonts come from
+`next/font/google` (Spectral, Source Sans 3, IBM Plex Mono) so they self-host at
+build time. If your team prefers Tailwind, the palette maps straight onto a
+theme extension — the token names in `lib/theme.js` are the keys.
 
 Palette: ivory `#FBF6EC` · paper `#FDF8F0` · cream `#F1E6D0` · ink `#33251A` ·
 terracotta `#A8482C` · gold-on-light `#7E5F21`.
