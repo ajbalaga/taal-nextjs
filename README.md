@@ -1,7 +1,8 @@
 # Municipality of Taal — Next.js implementation
 
 React + Next.js (App Router) + MongoDB, ported from the HTML design in
-`Taal Municipality Website.dc.html`. Object storage for PDF forms is Cloudflare R2,
+`Taal Municipality Website.dc.html`. Responsive down to phone width, with a
+collapsible mobile nav. Object storage for PDF forms is Cloudflare R2,
 but it is optional — see *Forms* below.
 
 ---
@@ -66,9 +67,12 @@ database would add operational cost for nothing.
 
 ## Forms & Cloudflare R2
 
-Right now the download links point at `/public/forms/*.pdf`: served free from the
-host CDN, versioned in git, zero credentials. Keep it that way until staff need to
-publish a form without a deploy.
+Right now the download links point at sample PDFs in `/public/forms/*.pdf`
+(building permit checklist, business permit application, citizen feedback form,
+civil registry request slip, real property tax clearance request, senior citizen
+ID application): served free from the host CDN, versioned in git, zero
+credentials. Keep it that way until staff need to publish a form without a
+deploy — and swap the samples for the real municipal forms before launch.
 
 When that day comes: create an R2 bucket, fill the `R2_*` variables, and
 `POST /api/forms/upload`. R2 gives 10 GB and 1M writes free with **no egress fees**,
@@ -96,6 +100,7 @@ terracotta `#A8482C` · gold-on-light `#7E5F21`.
    roster came from public pages and should be confirmed by each office.
 5. **Rate-limit** `POST /api/requests` (Upstash or Vercel KV) before it is public.
 6. Add `sitemap.js` and `robots.js`, and the municipal seal as `favicon.ico`.
+7. **Replace the sample PDFs** in `public/forms/` with the office's actual forms.
 
 ## Deploy
 
