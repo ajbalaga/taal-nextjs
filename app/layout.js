@@ -14,15 +14,20 @@ export const metadata = {
   metadataBase: new URL("https://taal.gov.ph")
 };
 
+const styles = {
+  shell: { display: "flex", flexDirection: "column", minHeight: "100vh" },
+  main: { flex: 1 }
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${spectral.variable} ${sans.variable} ${mono.variable}`}>
       <body>
         <a href="#main" className="skip">Skip to main content</a>
         <LightboxProvider>
-          <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          <div style={styles.shell}>
             <Header />
-            <main id="main" style={{ flex: 1 }}>{children}</main>
+            <main id="main" style={styles.main}>{children}</main>
             <Footer />
           </div>
         </LightboxProvider>

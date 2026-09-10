@@ -7,16 +7,38 @@ export const metadata = { title: "Elected Officials" };
 const MAYOR_FULL = "https://news.taal.gov.ph/wp-content/uploads/2016/08/Mayor.jpg";
 const VICE_FULL = "https://news.taal.gov.ph/wp-content/uploads/2016/08/vice-mayor.jpg";
 
+const styles = {
+  title: { ...h1, marginBottom: 30 },
+  leadCard: (tinted, accent) => ({
+    background: tinted ? c.cream : c.paper, border: `1px solid ${c.line}`, borderTop: `3px solid ${accent}`,
+    padding: "26px 24px", display: "flex", gap: 20, flexWrap: "wrap"
+  }),
+  leadThumb: { width: 112 },
+  leadBody: { flex: 1, minWidth: 170 },
+  leadTitle: (tinted) => ({ fontFamily: mono, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: tinted ? c.terracottaDark : c.muted, margin: "0 0 8px" }),
+  leadName: { fontFamily: serif, fontSize: 26, fontWeight: 600, margin: "0 0 10px", lineHeight: 1.2 },
+  leadBlurb: { margin: 0, fontSize: 15, lineHeight: 1.6, color: c.ink70 },
+
+  leadsGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16, marginBottom: 16 },
+  sectionTitle: { fontFamily: serif, fontSize: "clamp(21px,2.8vw,26px)", fontWeight: 600, margin: "34px 0 14px" },
+  sbGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14, marginBottom: 18 },
+  listPanel: { border: `1px solid ${c.line}`, background: c.paper },
+  listRow: { display: "flex", flexWrap: "wrap", gap: "6px 20px", justifyContent: "space-between", alignItems: "baseline", padding: "14px clamp(16px,2.5vw,24px)", borderBottom: `1px solid ${c.lineSoft}` },
+  listName: { fontFamily: serif, fontSize: 17.5, fontWeight: 600, color: c.ink },
+  listRole: { fontSize: 14.5, color: c.ink70 },
+  footnote: { margin: "16px 0 0", fontSize: 14, color: c.muted, lineHeight: 1.6 }
+};
+
 function Lead({ title, name, blurb, thumb, full, tinted, accent }) {
   return (
-    <div style={{ background: tinted ? c.cream : c.paper, border: `1px solid ${c.line}`, borderTop: `3px solid ${accent}`, padding: "26px 24px", display: "flex", gap: 20, flexWrap: "wrap" }}>
-      <div style={{ width: 112 }}>
+    <div style={styles.leadCard(tinted, accent)}>
+      <div style={styles.leadThumb}>
         <Photo src={thumb} caption={name} height={150} position="center top" fullSrc={full} />
       </div>
-      <div style={{ flex: 1, minWidth: 170 }}>
-        <p style={{ fontFamily: mono, fontSize: 11, letterSpacing: ".14em", textTransform: "uppercase", color: tinted ? c.terracottaDark : c.muted, margin: "0 0 8px" }}>{title}</p>
-        <h2 style={{ fontFamily: serif, fontSize: 26, fontWeight: 600, margin: "0 0 10px", lineHeight: 1.2 }}>{name}</h2>
-        <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: c.ink70 }}>{blurb}</p>
+      <div style={styles.leadBody}>
+        <p style={styles.leadTitle(tinted)}>{title}</p>
+        <h2 style={styles.leadName}>{name}</h2>
+        <p style={styles.leadBlurb}>{blurb}</p>
       </div>
     </div>
   );
@@ -28,9 +50,9 @@ export default function Officials() {
   return (
     <div style={wrap}>
       <p style={eyebrow}>Local government</p>
-      <h1 style={{ ...h1, marginBottom: 30 }}>Elected officials</h1>
+      <h1 style={styles.title}>Elected officials</h1>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16, marginBottom: 16 }}>
+      <div style={styles.leadsGrid}>
         <Lead tinted accent={c.terracotta} title="Municipal Mayor" name="Fulgencio I. Mercado"
           thumb="https://news.taal.gov.ph/wp-content/uploads/2016/08/Mayor-225x300.jpg" full={MAYOR_FULL}
           blurb="Chief executive of the municipality. Office of the Mayor, Municipal Hall · (043) 740-6183 · mayor@taal.gov.ph" />
@@ -39,31 +61,31 @@ export default function Officials() {
           blurb="Presiding officer of the Sangguniang Bayan · (043) 740-6181 · vicemayor@taal.gov.ph" />
       </div>
 
-      <h2 style={{ fontFamily: serif, fontSize: "clamp(21px,2.8vw,26px)", fontWeight: 600, margin: "34px 0 14px" }}>Sangguniang Bayan</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14, marginBottom: 18 }}>
+      <h2 style={styles.sectionTitle}>Sangguniang Bayan</h2>
+      <div style={styles.sbGrid}>
         {SBPHOTOS.map(src => (
           <Photo key={src} src={src} caption="Sangguniang Bayan of Taal" ratio="4/3" />
         ))}
       </div>
-      <div style={{ border: `1px solid ${c.line}`, background: c.paper }}>
+      <div style={styles.listPanel}>
         {COUNCIL.map(m => (
-          <div key={m.name} style={{ display: "flex", flexWrap: "wrap", gap: "6px 20px", justifyContent: "space-between", alignItems: "baseline", padding: "14px clamp(16px,2.5vw,24px)", borderBottom: `1px solid ${c.lineSoft}` }}>
-            <span style={{ fontFamily: serif, fontSize: 17.5, fontWeight: 600, color: c.ink }}>{m.name}</span>
-            <span style={{ fontSize: 14.5, color: c.ink70 }}>{m.role}</span>
+          <div key={m.name} style={styles.listRow}>
+            <span style={styles.listName}>{m.name}</span>
+            <span style={styles.listRole}>{m.role}</span>
           </div>
         ))}
       </div>
 
-      <h2 style={{ fontFamily: serif, fontSize: "clamp(21px,2.8vw,26px)", fontWeight: 600, margin: "34px 0 14px" }}>Department heads</h2>
-      <div style={{ border: `1px solid ${c.line}`, background: c.paper }}>
+      <h2 style={styles.sectionTitle}>Department heads</h2>
+      <div style={styles.listPanel}>
         {heads.map(o => (
-          <div key={o.name} style={{ display: "flex", flexWrap: "wrap", gap: "6px 20px", justifyContent: "space-between", alignItems: "baseline", padding: "14px clamp(16px,2.5vw,24px)", borderBottom: `1px solid ${c.lineSoft}` }}>
-            <span style={{ fontFamily: serif, fontSize: 17.5, fontWeight: 600, color: c.ink }}>{o.head}</span>
-            <span style={{ fontSize: 14.5, color: c.ink70 }}>{o.name}</span>
+          <div key={o.name} style={styles.listRow}>
+            <span style={styles.listName}>{o.head}</span>
+            <span style={styles.listRole}>{o.name}</span>
           </div>
         ))}
       </div>
-      <p style={{ margin: "16px 0 0", fontSize: 14, color: c.muted, lineHeight: 1.6 }}>
+      <p style={styles.footnote}>
         Names, portraits, and contacts follow the municipality’s own published pages (Municipal Officials and LGU Directory, news.taal.gov.ph).
       </p>
     </div>

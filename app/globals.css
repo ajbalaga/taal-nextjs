@@ -23,3 +23,12 @@ input, select, textarea { font-family: inherit; font-size: 16px; }
 }
 .skip:focus { left: 8px; top: 8px; }
 .zoomable:hover { opacity: .9; }
+
+.nav-toggle { display: none; }
+.nav-mobile { display: none; }
+
+@media (max-width: 880px) {
+  .nav-desktop { display: none !important; }
+  .nav-toggle { display: flex !important; }
+  .nav-mobile[data-open="true"] { display: flex !important; }
+}

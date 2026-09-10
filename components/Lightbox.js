@@ -5,6 +5,21 @@ import { c, serif } from "@/lib/theme";
 const Ctx = createContext(() => {});
 export const useLightbox = () => useContext(Ctx);
 
+const styles = {
+  overlay: {
+    position: "fixed", inset: 0, zIndex: 100, background: "rgba(28,19,12,.92)",
+    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+    gap: 14, padding: "clamp(16px,4vw,44px)"
+  },
+  image: { maxWidth: "100%", maxHeight: "78vh", objectFit: "contain", boxShadow: "0 24px 60px rgba(0,0,0,.5)" },
+  caption: { margin: 0, fontFamily: serif, fontSize: "clamp(16px,2vw,20px)", color: c.paper, textAlign: "center" },
+  closeButton: { minHeight: 44, padding: "11px 22px", background: c.terracotta, color: c.paper, border: 0, fontSize: 15, fontWeight: 600 },
+  tile: (ratio, height) => ({
+    display: "block", width: "100%", height: ratio ? undefined : height, aspectRatio: ratio,
+    padding: 0, border: 0, backgroundColor: c.muted, backgroundSize: "cover"
+  })
+};
+
 export function LightboxProvider({ children }) {
   const [shot, setShot] = useState(null);
   const open = useCallback((src, caption) => setShot({ src, caption }), []);
@@ -19,11 +34,10 @@ export function LightboxProvider({ children }) {
     <Ctx.Provider value={open}>
       {children}
       {shot && (
-        <div role="dialog" aria-modal="true" aria-label={shot.caption} onClick={() => setShot(null)}
-          style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(28,19,12,.92)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "clamp(16px,4vw,44px)" }}>
-          <img src={shot.src} alt={shot.caption} style={{ maxWidth: "100%", maxHeight: "78vh", objectFit: "contain", boxShadow: "0 24px 60px rgba(0,0,0,.5)" }} />
-          <p style={{ margin: 0, fontFamily: serif, fontSize: "clamp(16px,2vw,20px)", color: c.paper, textAlign: "center" }}>{shot.caption}</p>
-          <button onClick={() => setShot(null)} style={{ minHeight: 44, padding: "11px 22px", background: c.terracotta, color: c.paper, border: 0, fontSize: 15, fontWeight: 600 }}>Close</button>
+        <div role="dialog" aria-modal="true" aria-label={shot.caption} onClick={() => setShot(null)} style={styles.overlay}>
+          <img src={shot.src} alt={shot.caption} style={styles.image} />
+          <p style={styles.caption}>{shot.caption}</p>
+          <button onClick={() => setShot(null)} style={styles.closeButton}>Close</button>
         </div>
       )}
     </Ctx.Provider>
@@ -35,7 +49,6 @@ export function Photo({ src, caption, fullSrc, height = 158, ratio, position = "
   const open = useLightbox();
   return (
     <button className="zoomable" onClick={() => open(fullSrc || src, caption)} aria-label={`${caption} — view larger`}
-      style={{ display: "block", width: "100%", height: ratio ? undefined : height, aspectRatio: ratio, padding: 0, border: 0,
-        backgroundColor: c.muted, backgroundImage: `url(${src})`, backgroundSize: "cover", backgroundPosition: position }} />
+      style={{ ...styles.tile(ratio, height), backgroundImage: `url(${src})`, backgroundPosition: position }} />
   );
 }
