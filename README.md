@@ -8,7 +8,7 @@ but it is optional — see *Forms* below.
 
 # 🌐 Live Demo
 
-https://taal-4s1qa8esq-ajbalagas-projects.vercel.app
+https://taal-kappa.vercel.app
 
 ---
 
