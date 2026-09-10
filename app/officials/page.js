@@ -1,11 +1,13 @@
 import { Photo } from "@/components/Lightbox";
 import { c, serif, mono, wrap, eyebrow, h1 } from "@/lib/theme";
-import { COUNCIL, SBPHOTOS, OFFICES } from "@/lib/data";
+import { COUNCIL, OFFICES } from "@/lib/data";
 
 export const metadata = { title: "Elected Officials" };
 
-const MAYOR_FULL = "https://news.taal.gov.ph/wp-content/uploads/2016/08/Mayor.jpg";
-const VICE_FULL = "https://news.taal.gov.ph/wp-content/uploads/2016/08/vice-mayor.jpg";
+// Drop each portrait into public/images/officials/ using these filenames.
+const MAYOR_PHOTO = "/images/officials/mayor-bainto.jpg";
+const VICE_PHOTO = "/images/officials/vice-mayor-villano.jpg";
+const REP_PHOTO = "/images/officials/representative-leviste.jpg";
 
 const styles = {
   title: { ...h1, marginBottom: 30 },
@@ -21,7 +23,6 @@ const styles = {
 
   leadsGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16, marginBottom: 16 },
   sectionTitle: { fontFamily: serif, fontSize: "clamp(21px,2.8vw,26px)", fontWeight: 600, margin: "34px 0 14px" },
-  sbGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 14, marginBottom: 18 },
   listPanel: { border: `1px solid ${c.line}`, background: c.paper },
   listRow: { display: "flex", flexWrap: "wrap", gap: "6px 20px", justifyContent: "space-between", alignItems: "baseline", padding: "14px clamp(16px,2.5vw,24px)", borderBottom: `1px solid ${c.lineSoft}` },
   listName: { fontFamily: serif, fontSize: 17.5, fontWeight: 600, color: c.ink },
@@ -53,20 +54,18 @@ export default function Officials() {
       <h1 style={styles.title}>Elected officials</h1>
 
       <div style={styles.leadsGrid}>
-        <Lead tinted accent={c.terracotta} title="Municipal Mayor" name="Fulgencio I. Mercado"
-          thumb="https://news.taal.gov.ph/wp-content/uploads/2016/08/Mayor-225x300.jpg" full={MAYOR_FULL}
+        <Lead tinted accent={c.terracotta} title="Municipal Mayor" name="Naereeza Grace M. Bainto"
+          thumb={MAYOR_PHOTO} full={MAYOR_PHOTO}
           blurb="Chief executive of the municipality. Office of the Mayor, Municipal Hall · (043) 740-6183 · mayor@taal.gov.ph" />
-        <Lead accent={c.gold} title="Municipal Vice Mayor" name="Jovito M. Albufera"
-          thumb="https://news.taal.gov.ph/wp-content/uploads/2016/08/vice-mayor-225x300.jpg" full={VICE_FULL}
+        <Lead accent={c.gold} title="Municipal Vice Mayor" name="Michael Rey A. Villano"
+          thumb={VICE_PHOTO} full={VICE_PHOTO}
           blurb="Presiding officer of the Sangguniang Bayan · (043) 740-6181 · vicemayor@taal.gov.ph" />
+        <Lead accent={c.ink} title="Representative" name="Leandro Antonio L. Leviste"
+          thumb={REP_PHOTO} full={REP_PHOTO}
+          blurb="Member, House of Representatives, Batangas's 1st District (which includes Taal)." />
       </div>
 
       <h2 style={styles.sectionTitle}>Sangguniang Bayan</h2>
-      <div style={styles.sbGrid}>
-        {SBPHOTOS.map(src => (
-          <Photo key={src} src={src} caption="Sangguniang Bayan of Taal" ratio="4/3" />
-        ))}
-      </div>
       <div style={styles.listPanel}>
         {COUNCIL.map(m => (
           <div key={m.name} style={styles.listRow}>
@@ -86,7 +85,9 @@ export default function Officials() {
         ))}
       </div>
       <p style={styles.footnote}>
-        Names, portraits, and contacts follow the municipality’s own published pages (Municipal Officials and LGU Directory, news.taal.gov.ph).
+        Elected officials reflect the results of the May 2025 local and national elections.
+        Department heads follow the municipality’s own published pages (Municipal Officials and
+        LGU Directory, news.taal.gov.ph), which have not yet listed the new administration.
       </p>
     </div>
   );
