@@ -1,0 +1,25 @@
+:root {
+  --font-serif: "Spectral", Georgia, serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #FBF6EC;
+  color: #33251A;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: #A8482C; text-decoration: none; }
+a:hover { color: #33251A; text-decoration: underline; }
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; font-size: 16px; }
+:focus-visible { outline: 3px solid #A98039; outline-offset: 2px; }
+::selection { background: #F1E6D0; }
+.skip {
+  position: absolute; left: -9999px; top: 0;
+  background: #33251A; color: #FBF6EC; padding: 10px 16px; z-index: 50;
+}
+.skip:focus { left: 8px; top: 8px; }
+.zoomable:hover { opacity: .9; }
