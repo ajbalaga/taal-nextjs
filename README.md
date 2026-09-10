@@ -4,6 +4,14 @@ React + Next.js (App Router) + MongoDB, ported from the HTML design in
 `Taal Municipality Website.dc.html`. Object storage for PDF forms is Cloudflare R2,
 but it is optional — see *Forms* below.
 
+---
+
+# 🌐 Live Demo
+
+https://taal-4s1qa8esq-ajbalagas-projects.vercel.app
+
+---
+
 ## Quick start
 
 ```bash
