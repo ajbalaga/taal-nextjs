@@ -27,9 +27,9 @@ export default function CedulaAppointment() {
       <div style={styles.payCard}>
         <h2 style={styles.payTitle}>How payment works</h2>
         <p style={styles.payText}>
-          Once you submit this form, proceed to the <strong>Taxpayer's Lounge, Municipal Hall</strong> on
-          your chosen date and time to pay and claim your cedula. Present at least one valid
-          government-issued ID when you pay.
+          Once you submit this form, you'll get a reference number. Bring it — and at least one
+          valid government-issued ID — to the <strong>Taxpayer's Lounge, Municipal Hall</strong> on
+          your chosen date and time to pay and claim your cedula.
         </p>
       </div>
 

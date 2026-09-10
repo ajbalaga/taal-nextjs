@@ -123,16 +123,16 @@ export default function CedulaForm() {
     return (
       <div style={styles.doneCard}>
         <p style={styles.doneEyebrow}>Appointment requested</p>
-        <h2 style={styles.doneTitle}>Thank you. Your reference number is</h2>
+        <h2 style={styles.doneTitle}>Present this number at the Taxpayer's Lounge</h2>
         <p style={styles.doneRef}>{state.ref}</p>
         <p style={styles.doneNote}>
-          Come to the <strong>Taxpayer's Lounge, Municipal Hall</strong> on <strong>{form.apptDate}</strong> at{" "}
-          <strong>{form.apptTime}</strong> to pay and claim your cedula. Estimated amount due:{" "}
-          <strong>{peso(amount.total)}</strong> (the Treasurer's Office confirms the final amount).
+          Go to the <strong>Taxpayer's Lounge, Municipal Hall</strong> on <strong>{form.apptDate}</strong> at{" "}
+          <strong>{form.apptTime}</strong> and give this number to pay and claim your cedula.
+          Estimated amount due: <strong>{peso(amount.total)}</strong> (the Treasurer's Office confirms the final amount).
         </p>
         <ul style={styles.doneList}>
           <li>Present at least one valid government-issued ID when you pay.</li>
-          <li>Keep your reference number and cite it if you need to reschedule.</li>
+          <li>Bring or screenshot this number — it identifies your appointment at the counter.</li>
         </ul>
         <button onClick={() => { setForm(EMPTY); setState({ status: "idle", ref: "", error: "" }); }} style={styles.doneButton}>
           Request another appointment
